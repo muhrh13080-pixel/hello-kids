@@ -1,45 +1,250 @@
-<!-- Боковое меню (Drawer) -->
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-user">
-            <img src="https://via.placeholder.com/50" alt="Avatar" id="sidebarAvatar">
-            <div>
-                <h4 id="sidebarName">Имя пользователя</h4>
-                <p id="sidebarUsername">@username</p>
-            </div>
-        </div>
-        <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Kids</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Шапка сайта */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+        }
+
+        .menu-btn, .cart-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--tg-theme-button-color, #ff5722);
+        }
+
+        /* Затемнение фона */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: 999;
+        }
+        .sidebar-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 280px;
+            height: 100%;
+            background: #ffffff;
+            color: #333;
+            transition: 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+
+        /* Шапка профиля в меню */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-user img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .sidebar-user h4 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+        }
+        .sidebar-user p {
+            margin: 0;
+            font-size: 12px;
+            color: #888;
+        }
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* Пункты меню */
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            color: #333;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: #f0f2f5;
+        }
+        .menu-item .icon {
+            font-size: 18px;
+        }
+        .menu-item .title {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: #222;
+        }
+        .menu-item .desc {
+            display: block;
+            font-size: 11px;
+            color: #777;
+        }
+
+        /* Основной контент магазина */
+        .content {
+            padding: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <div class="header">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="logo">👶 Hello Kids</div>
+        <button class="cart-btn" onclick="openCart()">🛒</button>
     </div>
 
-    <div class="sidebar-menu">
-        <a href="#" class="menu-item active" onclick="toggleSidebar()">
-            <span class="icon">🏠</span>
-            <div>
-                <span class="title">Главная</span>
-                <span class="desc">Каталог товаров</span>
+    <!-- Боковое меню (Профиль и разделы) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-user">
+                <img src="https://via.placeholder.com/50" alt="Avatar" id="sidebarAvatar">
+                <div>
+                    <h4 id="sidebarName">Имя пользователя</h4>
+                    <p id="sidebarUsername">@username</p>
+                </div>
             </div>
-        </a>
-        <a href="#" class="menu-item" onclick="openCart(); toggleSidebar();">
-            <span class="icon">🛒</span>
-            <div>
-                <span class="title">Корзина</span>
-                <span class="desc">Ваши выбранные вещи</span>
-            </div>
-        </a>
-        <a href="#" class="menu-item" onclick="toggleSidebar()">
-            <span class="icon">📦</span>
-            <div>
-                <span class="title">Мои заказы</span>
-                <span class="desc">История покупок</span>
-            </div>
-        </a>
-        <a href="#" class="menu-item" onclick="toggleSidebar()">
-            <span class="icon">📞</span>
-            <div>
-                <span class="title">Контакты</span>
-                <span class="desc">Связь с нами</span>
-            </div>
-        </a>
+            <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="#" class="menu-item active" onclick="toggleSidebar()">
+                <span class="icon">🏠</span>
+                <div>
+                    <span class="title">Главная</span>
+                    <span class="desc">Каталог товаров</span>
+                </div>
+            </a>
+            <a href="#" class="menu-item" onclick="openCart(); toggleSidebar();">
+                <span class="icon">🛒</span>
+                <div>
+                    <span class="title">Корзина</span>
+                    <span class="desc">Ваши выбранные вещи</span>
+                </div>
+            </a>
+            <a href="#" class="menu-item" onclick="toggleSidebar()">
+                <span class="icon">📦</span>
+                <div>
+                    <span class="title">Мои заказы</span>
+                    <span class="desc">История покупок</span>
+                </div>
+            </a>
+            <a href="#" class="menu-item" onclick="toggleSidebar()">
+                <span class="icon">📞</span>
+                <div>
+                    <span class="title">Контакты</span>
+                    <span class="desc">Связь с нами</span>
+                </div>
+            </a>
+        </div>
     </div>
-</div>
+
+    <!-- Контент -->
+    <div class="content">
+        <h2>Добро пожаловать в Hello Kids!</h2>
+        <p>Самая лучшая детская одежда в Душанбе 🇹🇯</p>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function openCart() {
+            alert('Корзина пока пуста');
+        }
+
+        // Автоподстановка данных пользователя из Telegram
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+                const user = window.Telegram.WebApp.initDataUnsafe.user;
+                if (user) {
+                    document.getElementById('sidebarName').innerText = user.first_name || 'Пользователь';
+                    document.getElementById('sidebarUsername').innerText = user.username ? '@' + user.username : 'id: ' + user.id;
+                    if (user.photo_url) {
+                        document.getElementById('sidebarAvatar').src = user.photo_url;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
