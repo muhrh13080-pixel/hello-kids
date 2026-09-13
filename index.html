@@ -3,239 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Kids - Shop</title>
+    <title>Hello Kids</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: #f7f9fc;
-            --card-bg: #ffffff;
-            --text-color: #2b2b2b;
-            --primary-pink: #ff6584;
-            --primary-blue: #4a90e2;
-            --accent-gradient: linear-gradient(135deg, #4a90e2 0%, #ff6584 100%);
+            --primary-pink: #ff6b81;
+            --light-pink: #ffeef2;
+            --bg-color: #f8f9fa;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
             margin: 0;
-            padding: 15px;
-            padding-bottom: 70px;
+            padding: 10px;
+            color: #333;
         }
-
-        header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
-
-        .menu-toggle {
-            font-size: 24px;
+        .menu-btn, .cart-btn, .profile-header-btn {
             background: none;
             border: none;
+            font-size: 24px;
             cursor: pointer;
-            color: var(--primary-blue);
+            position: relative;
         }
-
+        .header-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
         .logo {
             font-size: 20px;
             font-weight: bold;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-icons {
+            color: var(--primary-pink);
             display: flex;
-            gap: 15px;
             align-items: center;
+            gap: 5px;
         }
-
-        .cart-icon-btn {
-            background: none;
-            border: none;
-            font-size: 22px;
-            cursor: pointer;
-            position: relative;
-        }
-
         .cart-badge {
             position: absolute;
             top: -5px;
-            right: -8px;
+            right: -5px;
             background: var(--primary-pink);
             color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-weight: bold;
+            font-size: 11px;
+            padding: 2px 5px;
+            border-radius: 50%;
         }
-
-        /* Выдвижное меню (три полосы) */
-        #side-menu {
-            position: fixed;
-            top: 0; left: -280px; width: 260px; height: 100%;
-            background: white;
-            z-index: 200;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
-            transition: 0.3s;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        #side-menu.open {
-            left: 0;
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .menu-close {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .menu-section-title {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .lang-options {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 25px;
-        }
-
-        .lang-btn {
-            flex: 1;
-            padding: 8px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .lang-btn.active {
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-            background: #f0f7ff;
-        }
-
         .categories {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
-            margin-bottom: 20px;
             padding-bottom: 5px;
+            margin-bottom: 15px;
         }
-
         .cat-btn {
             background: white;
-            border: 2px solid var(--primary-pink);
-            color: var(--primary-pink);
+            border: 1px solid #ddd;
             padding: 8px 15px;
             border-radius: 20px;
-            font-weight: bold;
             white-space: nowrap;
             cursor: pointer;
-            transition: 0.2s;
+            font-size: 14px;
         }
-
-        .cat-btn.active, .cat-btn:hover {
-            background: var(--accent-gradient);
+        .cat-btn.active {
+            background: var(--primary-pink);
             color: white;
-            border-color: transparent;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 2px solid #eee;
-            cursor: pointer;
-            transition: 0.2s;
-            position: relative;
-        }
-
-        .product-card:hover {
             border-color: var(--primary-pink);
         }
-
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: relative;
+            cursor: pointer;
+        }
+        .product-img {
+            width: 100%;
+            height: 120px;
+            background: var(--light-pink);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 14px;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 8px 0 4px;
+        }
+        .product-info {
+            font-size: 12px;
+            color: #666;
+        }
+        .product-price {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary-pink);
+            margin-top: 5px;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 12px;
+            margin-right: 5px;
+        }
         .status-badge {
             position: absolute;
             top: 15px;
             right: 15px;
             font-size: 10px;
-            padding: 3px 8px;
+            padding: 3px 6px;
             border-radius: 6px;
             font-weight: bold;
         }
-        .status-in { background: #e6fcf5; color: #0ca678; }
-        .status-out { background: #fff5f5; color: #fa5252; }
+        .status-in { background: #e1f5fe; color: #0288d1; }
+        .status-out { background: #ffebee; color: #c62828; }
 
-        .add-card {
-            border: 2px dashed var(--primary-pink);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #fff0f3;
-            min-height: 180px;
-            text-align: center;
+        /* Боковое меню */
+        .side-menu {
+            position: fixed;
+            top: 0; left: -250px;
+            width: 250px; height: 100%;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            z-index: 100;
+            padding: 20px;
+            box-sizing: border-box;
         }
-
-        .add-icon { font-size: 32px; color: var(--primary-pink); margin-bottom: 5px; }
-        .add-text { font-size: 13px; font-weight: bold; color: var(--primary-pink); }
-
-        .product-img {
-            width: 100%;
-            height: 110px;
-            background: #ffe0eb;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-pink);
-            font-weight: bold;
-            margin-bottom: 10px;
-            overflow: hidden;
+        .side-menu.open { left: 0; }
+        .side-menu h3 { margin-top: 0; color: var(--primary-pink); }
+        .side-menu div.menu-item-link {
+            display: block;
+            padding: 10px 0;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
         }
-
-        .product-img img { width: 100%; height: 100%; object-fit: cover; }
-
-        .product-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .product-info { font-size: 11px; color: #888; margin-bottom: 5px; }
-        .product-price { font-size: 13px; color: #666; }
-        .old-price { text-decoration: line-through; font-size: 11px; color: #999; margin-right: 5px; }
-        .new-price { color: var(--primary-pink); font-weight: bold; font-size: 15px; }
 
         /* Модальные окна */
         .modal {
@@ -243,189 +168,99 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
-            z-index: 300;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; align-items: center;
+            z-index: 1000;
         }
-
         .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 85%;
-            max-width: 350px;
-            max-height: 90vh;
-            overflow-y: auto;
+            background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 320px;
             box-sizing: border-box;
         }
-
         .modal-content h3 { margin-top: 0; }
-        .modal-content input, .modal-content select, .modal-content textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            background: white;
-            font-family: inherit;
-        }
-
-        .file-upload-label {
-            display: block;
-            background: #f1f3f5;
-            border: 2px dashed #cbd5e1;
-            padding: 10px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            color: #475569;
-            margin-bottom: 10px;
-        }
-        #m-photo-input { display: none; }
-
-        .modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
-        .modal-buttons button {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn-save { background: var(--accent-gradient); color: white; }
-        .btn-delete { background: #ff4757; color: white; display: none; }
-        .btn-cancel { background: #eee; color: #666; }
-
-        .client-modal-img {
-            width: 100%;
-            height: 180px;
-            border-radius: 10px;
-            background: #ffe0eb;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-        .desc-text { font-size: 13px; color: #555; margin-bottom: 15px; line-height: 1.4; }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-            padding: 8px 0;
-            font-size: 13px;
-        }
-        .cart-total {
-            font-weight: bold;
-            font-size: 16px;
-            margin: 15px 0;
-            text-align: right;
-        }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
+        .modal-buttons button { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-save { background: var(--primary-pink); color: white; }
+        .btn-cancel { background: #ddd; color: #333; }
+        
+        .client-modal-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <!-- Шапка -->
+    <div class="header">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
         <div class="logo">👶 Hello Kids</div>
-        <div class="header-icons">
-            <button class="cart-icon-btn" onclick="openCartModal()">🛒<span class="cart-badge" id="cart-count">0</span></button>
-        </div>
-    </header>
-
-    <!-- Выдвижное меню (три полосы) -->
-    <div id="side-menu">
-        <div class="menu-header">
-            <span id="menu-title-text">Меню</span>
-            <button class="menu-close" onclick="toggleMenu()">✕</button>
-        </div>
-        <div class="menu-section-title" id="lang-title">Язык / Language / Забон</div>
-        <div class="lang-options">
-            <button class="lang-btn active" onclick="setLang('ru')">RU</button>
-            <button class="lang-btn" onclick="setLang('tj')">TJ</button>
-            <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <div class="header-right">
+            <button class="profile-header-btn" onclick="openProfileModal()" title="Профиль">👤</button>
+            <button class="cart-btn" onclick="openCartModal()">🛒<span class="cart-badge" id="cart-count">0</span></button>
         </div>
     </div>
 
     <!-- Категории -->
     <div class="categories">
-        <button class="cat-btn active" onclick="filterCat('all', this)" id="cat-all">🔥 Все</button>
-        <button class="cat-btn" onclick="filterCat('boys', this)" id="cat-boys">👦 Мальчикам</button>
-        <button class="cat-btn" onclick="filterCat('girls', this)" id="cat-girls">👧 Девочкам</button>
-        <button class="cat-btn" onclick="filterCat('toys', this)" id="cat-toys">🧸 Игрушки</button>
-        <button class="cat-btn" onclick="filterCat('shoes', this)" id="cat-shoes">👟 Обувь</button>
+        <button class="cat-btn active" id="cat-all" onclick="filterCat('all', this)">🔥 Все</button>
+        <button class="cat-btn" id="cat-boys" onclick="filterCat('boys', this)">👦 Мальчикам</button>
+        <button class="cat-btn" id="cat-girls" onclick="filterCat('girls', this)">👧 Девочкам</button>
+        <button class="cat-btn" id="cat-toys" onclick="filterCat('toys', this)">🧸 Игрушки</button>
+        <button class="cat-btn" id="cat-shoes" onclick="filterCat('shoes', this)">👟 Обувь</button>
     </div>
 
-    <div class="products-grid" id="product-list"></div>
+    <!-- Сетка товаров -->
+    <div class="product-grid" id="product-list"></div>
 
-    <!-- Модальное окно Админки -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h3 id="modal-title-text">➕ Товар</h3>
-            <input type="hidden" id="m-id">
-            <input type="text" id="m-name" placeholder="Название товара">
-            
-            <select id="m-category">
-                <option value="boys">Мальчикам</option>
-                <option value="girls">Девочкам</option>
-                <option value="toys">Игрушки</option>
-                <option value="shoes">Обувь</option>
-            </select>
+    <!-- Боковое меню -->
+    <div class="side-menu" id="side-menu">
+        <h3 id="menu-title-text">Меню</h3>
+        <div class="menu-item-link" id="menu-profile-text" onclick="openProfileModal()">👤 Профиль</div>
 
-            <select id="m-size">
-                <option value="Без размера">Универсальный / Без размера</option>
-                <option value="90 см">90 см</option>
-                <option value="100 см">100 см</option>
-                <option value="110 см">110 см</option>
-                <option value="120 см">120 см</option>
-                <option value="130 см">130 см</option>
-                <option value="140 см">140 см</option>
-                <option value="150 см">150 см</option>
-                <option value="160 см">160 см</option>
-            </select>
+        <div style="margin-top: 20px;">
+            <p id="lang-title" style="font-size: 13px; color: #666; margin-bottom: 5px;">Язык / Language</p>
+            <button class="cat-btn lang-btn active" onclick="setLang('ru')">Русский</button>
+            <button class="cat-btn lang-btn" onclick="setLang('tj')">Тоҷикӣ</button>
+            <button class="cat-btn lang-btn" onclick="setLang('en')">English</button>
+        </div>
+        <div class="menu-item-link" onclick="toggleMenu()" style="margin-top: 30px; color: var(--primary-pink); text-align: center; border: none;" id="menu-close-text">✕ Закрыть</div>
+    </div>
 
-            <input type="number" id="m-price" placeholder="Цена (сомони)">
-            <input type="number" id="m-sale" placeholder="Цена со скидкой (опционально)">
-            
-            <textarea id="m-desc" placeholder="Описание товара..." rows="3"></textarea>
-
-            <label style="font-size: 12px; font-weight: bold; color: #666; display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                <input type="checkbox" id="m-in-stock" checked style="width: auto; margin: 0;"> <span id="lbl-stock-check">Товар в наличии</span>
-            </label>
-
-            <label class="file-upload-label" for="m-photo-input" id="lbl-photo">📷 Выбрать фото</label>
-            <input type="file" id="m-photo-input" accept="image/*" onchange="previewImage(event)">
-
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal()" id="btn-cancel-modal">Отмена</button>
-                <button class="btn-delete" id="del-btn" onclick="deleteProduct()">Удалить</button>
-                <button class="btn-save" onclick="saveProduct()" id="btn-save-modal">Сохранить</button>
+    <!-- Модальное окно Профиль -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content" style="text-align: left;">
+            <h3 style="text-align: center;" id="prof-title">👤 Мой профиль</h3>
+            <div style="margin: 12px 0; font-size: 14px;">
+                <span style="color: #666; display: block; font-size: 12px;" id="prof-user-label">Юзер / Имя и Telegram ID:</span>
+                <b id="profile-user-info" style="font-size: 15px; color: #000;">—</b>
             </div>
+            <div style="margin: 12px 0 20px 0; font-size: 14px;">
+                <span style="color: #666; display: block; font-size: 12px;" id="prof-phone-label">Номер телефона:</span>
+                <div id="phone-container">
+                    <button onclick="requestContact()" id="btn-share-phone" style="width: 100%; padding: 8px; background: #e1f5fe; color: #0288d1; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; margin-top: 4px;">📱 Поделиться номером</button>
+                </div>
+            </div>
+            <button onclick="closeProfileModal()" id="prof-close-btn" style="width:100%; padding:10px; background:#ddd; border:none; border-radius:8px; cursor:pointer;">Закрыть</button>
         </div>
     </div>
 
-    <!-- Модальное окно просмотра товара клиентом -->
+    <!-- Модальное окно просмотра товара -->
     <div id="client-modal" class="modal">
         <div class="modal-content">
             <div id="c-modal-body"></div>
             <div class="modal-buttons" style="margin-top: 15px;">
-                <button class="btn-cancel" onclick="closeClientModal()" id="btn-close-client">Закрыть</button>
+                <button class="btn-cancel" id="btn-close-client" onclick="closeClientModal()">Закрыть</button>
                 <button class="btn-save" id="btn-add-cart" onclick="addToCart()">В корзину</button>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно Корзины -->
+    <!-- Корзина -->
     <div id="cart-modal" class="modal">
         <div class="modal-content">
             <h3 id="cart-modal-title">🛒 Корзина</h3>
-            <div id="cart-items-container"></div>
-            <div class="cart-total" id="cart-total-text">Итого: 0 сомони</div>
+            <div id="cart-items-container" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;"></div>
+            <div id="cart-total-text" style="font-weight: bold; margin-bottom: 15px; font-size: 15px;">Итого: 0 сомони</div>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeCartModal()" id="btn-close-cart">Закрыть</button>
-                <button class="btn-save" onclick="checkout()" id="btn-checkout">Оформить заказ</button>
+                <button class="btn-cancel" id="btn-close-cart" onclick="closeCartModal()">Закрыть</button>
+                <button class="btn-save" id="btn-checkout" onclick="checkout()">Оформить заказ</button>
             </div>
         </div>
     </div>
@@ -437,62 +272,73 @@
         let currentLang = 'ru';
         const translations = {
             ru: {
-                menu: "Меню",
-                langTitle: "Язык / Language / Забон",
+                menu: "Меню", langTitle: "Язык / Language / Забон", profileMenu: "👤 Профиль", closeMenu: "✕ Закрыть",
+                profTitle: "👤 Мой профиль", profUserLabel: "Юзер / Имя и Telegram ID:", profPhoneLabel: "Номер телефона:",
+                sharePhone: "📱 Поделиться номером", profClose: "Закрыть",
                 all: "🔥 Все", boys: "👦 Мальчикам", girls: "👧 Девочкам", toys: "🧸 Игрушки", shoes: "👟 Обувь",
-                add: "Добавить товар", inStock: "В наличии", outStock: "Нет в наличии",
+                inStock: "В наличии", outStock: "Нет в наличии",
                 cart: "🛒 Корзина", total: "Итого", order: "Оформить заказ",
-                close: "Закрыть", cancel: "Отмена", save: "Сохранить", delete: "Удалить",
-                addToCartBtn: "В корзину",
-                sizeLabel: "Размер:", statusLabel: "Статус:", descDefault: "Описание отсутствует",
-                cartEmpty: "Корзина пуста", addedAlert: "Товар добавлен в корзину!", orderSuccess: "Спасибо за заказ! Заказ отправлен.",
-                fillError: "Заполните название и цену!", addModalTitle: "➕ Добавить товар", photoLabel: "📷 Выбрать фото", stockCheck: "Товар в наличии"
+                close: "Закрыть", addToCartBtn: "В корзину", sizeLabel: "Размер:", statusLabel: "Статус:", descDefault: "Описание отсутствует",
+                cartEmpty: "Корзина пуста", addedAlert: "Товар добавлен в корзину!", orderSuccess: "Спасибо за заказ! Заказ отправлен."
             },
             tj: {
-                menu: "Меню",
-                langTitle: "Забон / Language / Язык",
+                menu: "Меню", langTitle: "Забон / Language / Язык", profileMenu: "👤 Профил", closeMenu: "✕ Пӯшидан",
+                profTitle: "👤 Профили ман", profUserLabel: "Ном ва Telegram ID:", profPhoneLabel: "Рақами телефон:",
+                sharePhone: "📱 Рақами телефонро фиристодан", profClose: "Пушидан",
                 all: "🔥 Ҳама", boys: "👦 Бачагона", girls: "👧 Духтарона", toys: "🧸 Бозичаҳо", shoes: "👟 Пойафзол",
-                add: "Илова кардани мол", inStock: "Дар омбор ҳаст", outStock: "Нест",
+                inStock: "Дар омбор ҳаст", outStock: "Нест",
                 cart: "🛒 Саватча", total: "Ҳамагӣ", order: "Фармоиш додан",
-                close: "Пушидан", cancel: "Бекор кардан", save: "Нигоҳ доштан", delete: "Нест кардан",
-                addToCartBtn: "Ба саватча",
-                sizeLabel: "Андоза:", statusLabel: "Ҳолат:", descDefault: "Тавсиф мавҷуд нест",
-                cartEmpty: "Саватча холӣ аст", addedAlert: "Мол ба саватча илова шуд!", orderSuccess: "Ташаккур барои фармоиш! Фармоиш фиристода шуд.",
-                fillError: "Ном ва нархро пур кунед!", addModalTitle: "➕ Илова кардани мол", photoLabel: "📷 Интихоби акс", stockCheck: "Мол дар омбор ҳаст"
+                close: "Пушидан", addToCartBtn: "Ба саватча", sizeLabel: "Андоза:", statusLabel: "Ҳолат:", descDefault: "Тавсиф мавҷуд нест",
+                cartEmpty: "Саватча холӣ аст", addedAlert: "Мол ба саватча илова шуд!", orderSuccess: "Ташаккур барои фармоиш! Фармоиш фиристода шуд."
             },
             en: {
-                menu: "Menu",
-                langTitle: "Language / Забон / Язык",
+                menu: "Menu", langTitle: "Language / Забон / Язык", profileMenu: "👤 Profile", closeMenu: "✕ Close",
+                profTitle: "👤 My Profile", profUserLabel: "Username / Name and Telegram ID:", profPhoneLabel: "Phone number:",
+                sharePhone: "📱 Share phone number", profClose: "Close",
                 all: "🔥 All", boys: "👦 Boys", girls: "Girls", toys: "🧸 Toys", shoes: "👟 Shoes",
-                add: "Add product", inStock: "In stock", outStock: "Out of stock",
+                inStock: "In stock", outStock: "Out of stock",
                 cart: "🛒 Cart", total: "Total", order: "Checkout",
-                close: "Close", cancel: "Cancel", save: "Save", delete: "Delete",
-                addToCartBtn: "Add to cart",
-                sizeLabel: "Size:", statusLabel: "Status:", descDefault: "No description available",
-                cartEmpty: "Cart is empty", addedAlert: "Product added to cart!", orderSuccess: "Thank you for your order! Order sent.",
-                fillError: "Fill in name and price!", addModalTitle: "➕ Add Product", photoLabel: "📷 Choose Photo", stockCheck: "In stock"
+                close: "Close", addToCartBtn: "Add to cart", sizeLabel: "Size:", statusLabel: "Status:", descDefault: "No description available",
+                cartEmpty: "Cart is empty", addedAlert: "Product added to cart!", orderSuccess: "Thank you for your order! Order sent."
             }
         };
 
-        const defaultProducts = [
-            { id: 1, name: "Костюм детский", category: "boys", size: "110 см", price: 120, salePrice: "", photo: "", desc: "Красивый удобный костюм для ребенка", inStock: true },
-            { id: 2, name: "Платье для девочки", category: "girls", size: "100 см", price: 95, salePrice: 80, photo: "", desc: "Нарядное платье", inStock: false }
-        ];
-
-        let products = JSON.parse(localStorage.getItem('hellokids_products')) || defaultProducts;
+        let products = [];
         let cart = JSON.parse(localStorage.getItem('hellokids_cart')) || [];
         let currentFilter = 'all';
-        let currentImageBase64 = "";
         let selectedProductForCart = null;
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/get_products');
+                products = await response.json();
+            } catch (e) {
+                products = [
+                    { id: 1, name: "Костюм детский", category: "boys", size: "110 см", price: 120, salePrice: "", photo: "", desc: "Удобный костюм", inStock: true },
+                    { id: 2, name: "Платье для девочки", category: "girls", size: "100 см", price: 95, salePrice: 80, photo: "", desc: "Нарядное платье", inStock: false }
+                ];
+            }
+            renderProducts(currentFilter);
+        }
 
         function setLang(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Обновляем текст всех элементов интерфейса на выбранный язык
             document.getElementById('menu-title-text').innerText = translations[lang].menu;
+            document.getElementById('menu-profile-text').innerText = translations[lang].profileMenu;
+            document.getElementById('menu-close-text').innerText = translations[lang].closeMenu;
             document.getElementById('lang-title').innerText = translations[lang].langTitle;
+            
+            document.getElementById('prof-title').innerText = translations[lang].profTitle;
+            document.getElementById('prof-user-label').innerText = translations[lang].profUserLabel;
+            document.getElementById('prof-phone-label').innerText = translations[lang].profPhoneLabel;
+            document.getElementById('prof-close-btn').innerText = translations[lang].profClose;
+            
+            const shareBtn = document.getElementById('btn-share-phone');
+            if (shareBtn) shareBtn.innerText = translations[lang].sharePhone;
+
             document.getElementById('cat-all').innerText = translations[lang].all;
             document.getElementById('cat-boys').innerText = translations[lang].boys;
             document.getElementById('cat-girls').innerText = translations[lang].girls;
@@ -503,10 +349,6 @@
             document.getElementById('btn-checkout').innerText = translations[lang].order;
             document.getElementById('btn-close-client').innerText = translations[lang].close;
             document.getElementById('btn-add-cart').innerText = translations[lang].addToCartBtn;
-            document.getElementById('btn-cancel-modal').innerText = translations[lang].cancel;
-            document.getElementById('btn-save-modal').innerText = translations[lang].save;
-            document.getElementById('lbl-stock-check').innerText = translations[lang].stockCheck;
-            document.getElementById('lbl-photo').innerText = translations[lang].photoLabel;
             
             toggleMenu();
             renderProducts(currentFilter);
@@ -535,7 +377,7 @@
                     : `<span class="status-badge status-out">${translations[currentLang].outStock}</span>`;
 
                 list.innerHTML += `
-                    <div class="product-card" onclick="openClientOrEdit(${p.id})">
+                    <div class="product-card" onclick="openClientModal(${p.id})">
                         ${stockBadge}
                         <div class="product-img">${imgHTML}</div>
                         <div class="product-title">${p.name}</div>
@@ -544,17 +386,50 @@
                     </div>
                 `;
             });
-
-            list.innerHTML += `
-                <div class="product-card add-card" onclick="openAddModal()">
-                    <div class="add-icon">+</div>
-                    <div class="add-text">${translations[currentLang].add}</div>
-                </div>
-            `;
+            
             updateCartCount();
         }
 
-        function openClientOrEdit(id) {
+        function openProfileModal() {
+            if (document.getElementById('side-menu').classList.contains('open')) {
+                toggleMenu();
+            }
+            const user = tg.initDataUnsafe?.user;
+            let usernameDisplay = user ? (user.username ? "@" + user.username : user.first_name) : "Тест в браузере";
+            const userId = user?.id || "Не определен";
+            document.getElementById('profile-user-info').innerHTML = `${usernameDisplay} <span style="color:#666; font-weight:normal; font-size:13px;">(ID: ${userId})</span>`;
+
+            const savedPhone = localStorage.getItem('hellokids_user_phone');
+            const phoneContainer = document.getElementById('phone-container');
+            if (savedPhone) {
+                phoneContainer.innerHTML = `<b style="color: #2e7d32; font-size: 15px;">${savedPhone}</b>`;
+            } else {
+                phoneContainer.innerHTML = `<button onclick="requestContact()" id="btn-share-phone" style="width: 100%; padding: 8px; background: #e1f5fe; color: #0288d1; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; margin-top: 4px;">${translations[currentLang].sharePhone}</button>`;
+            }
+            document.getElementById('profile-modal').style.display = 'flex';
+        }
+
+        function requestContact() {
+            if (tg.requestContact) {
+                tg.requestContact((shared, contact) => {
+                    if (shared && contact && contact.phone_number) {
+                        let phone = "+" + contact.phone_number;
+                        localStorage.setItem('hellokids_user_phone', phone);
+                        document.getElementById('phone-container').innerHTML = `<b style="color: #2e7d32; font-size: 15px;">${phone}</b>`;
+                    }
+                });
+            } else {
+                let phone = prompt("Введите ваш номер телефона:");
+                if (phone) {
+                    localStorage.setItem('hellokids_user_phone', phone);
+                    document.getElementById('phone-container').innerHTML = `<b style="color: #2e7d32; font-size: 15px;">${phone}</b>`;
+                }
+            }
+        }
+
+        function closeProfileModal() { document.getElementById('profile-modal').style.display = 'none'; }
+
+        function openClientModal(id) {
             const p = products.find(item => item.id === id);
             if (!p) return;
             selectedProductForCart = p;
@@ -573,102 +448,11 @@
             `;
             
             const btnAdd = document.getElementById('btn-add-cart');
-            if (p.inStock) {
-                btnAdd.style.display = 'block';
-            } else {
-                btnAdd.style.display = 'none';
-            }
-
+            btnAdd.style.display = p.inStock ? 'block' : 'none';
             document.getElementById('client-modal').style.display = 'flex';
         }
 
-        function closeClientModal() {
-            document.getElementById('client-modal').style.display = 'none';
-        }
-
-        function openAddModal() {
-            document.getElementById('modal-title-text').innerText = translations[currentLang].addModalTitle;
-            document.getElementById('m-id').value = '';
-            document.getElementById('m-name').value = '';
-            document.getElementById('m-category').value = currentFilter === 'all' ? 'boys' : currentFilter;
-            document.getElementById('m-size').value = '110 см';
-            document.getElementById('m-price').value = '';
-            document.getElementById('m-sale').value = '';
-            document.getElementById('m-desc').value = '';
-            document.getElementById('m-in-stock').checked = true;
-            currentImageBase64 = "";
-            document.getElementById('m-photo-input').value = '';
-            document.getElementById('del-btn').style.display = 'none';
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 400;
-                    const MAX_HEIGHT = 400;
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > height) {
-                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                    } else {
-                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                    }
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                    currentImageBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                }
-                img.src = e.target.result;
-            }
-            reader.readAsDataURL(file);
-        }
-
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-        function saveProduct() {
-            const id = document.getElementById('m-id').value;
-            const name = document.getElementById('m-name').value;
-            const category = document.getElementById('m-category').value;
-            const size = document.getElementById('m-size').value;
-            const price = document.getElementById('m-price').value;
-            const salePrice = document.getElementById('m-sale').value;
-            const desc = document.getElementById('m-desc').value;
-            const inStock = document.getElementById('m-in-stock').checked;
-
-            if (!name || !price) { alert(translations[currentLang].fillError); return; }
-
-            let existingProduct = products.find(item => item.id == id);
-            let photoToSave = currentImageBase64 || (existingProduct ? existingProduct.photo : "");
-
-            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-            products.push({
-                id: newId,
-                name, category, size,
-                price: Number(price),
-                salePrice: salePrice ? Number(salePrice) : "",
-                desc, inStock,
-                photo: photoToSave
-            });
-
-            localStorage.setItem('hellokids_products', JSON.stringify(products));
-            closeModal();
-            renderProducts(currentFilter);
-        }
-
-        function deleteProduct() {
-            const id = document.getElementById('m-id').value;
-            if (!id) return;
-            products = products.filter(p => p.id != id);
-            localStorage.setItem('hellokids_products', JSON.stringify(products));
-            closeModal();
-            renderProducts(currentFilter);
-        }
+        function closeClientModal() { document.getElementById('client-modal').style.display = 'none'; }
 
         function addToCart() {
             if (!selectedProductForCart) return;
@@ -732,7 +516,9 @@
             renderProducts(category);
         }
 
-        renderProducts();
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+        });
     </script>
 </body>
 </html>
