@@ -1,0 +1,4 @@
+[
+    { "id": 1, "name": "Костюм детский", "category": "boys", "size": "110 см", "price": 120, "salePrice": "", "photo": "", "desc": "Удобный костюм", "inStock": true },
+    { "id": 2, "name": "Платье для девочки", "category": "girls", "size": "100 см", "price": 95, "salePrice": 80, "photo": "", "desc": "Нарядное платье", "inStock": false }
+]
